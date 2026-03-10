@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Digital Grievance System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #0a3d62;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: bold; }
+        .logo img { width: 40px; border-radius: 5px; }
+        .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; margin: 0; padding: 0; }
+        .nav-links li a { text-decoration: none; color: white; font-size: 15px; transition: 0.3s; cursor: pointer; }
+        .nav-links li a:hover { color: #f6b93b; }
+
+        /* Hero Section */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(10, 61, 98, 0.7), rgba(10, 61, 98, 0.7)), url("bg.jpeg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 800px;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; line-height: 1.2; }
+
+        /* Issues Grid */
+        .issues { padding: 60px 40px; text-align: center; }
+        .issues h2 { font-size: 32px; color: #0a3d62; margin-bottom: 40px; }
+
+        .issue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .issue-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .issue-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .issue-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content { padding: 20px; }
+        .card-content h3 { margin: 0 0 10px 0; font-size: 20px; color: #0a3d62; display: flex; align-items: center; gap: 10px; }
+        .card-content p { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+
+        .learn-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            background: #0a3d62;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .learn-more-btn:hover { background: #f6b93b; color: #0a3d62; }
+        .icon-yellow { color: #f6b93b; }
+
+        /* Footer Styling */
+        .main-footer { background: #052a44; color: white; padding: 60px 0 0 0; margin-top: 50px; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; padding: 0 40px 40px 40px; }
+        .footer-col h3 { font-size: 20px; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+        .footer-col h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 2px; background: #f6b93b; }
+        .footer-col p { font-size: 14px; line-height: 1.8; color: #bdc3c7; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links li a { color: #bdc3c7; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .footer-links li a:hover { color: #f6b93b; padding-left: 10px; }
+        .contact-info { list-style: none; padding: 0; }
+        .contact-info li { display: flex; gap: 15px; font-size: 14px; color: #bdc3c7; margin-bottom: 15px; }
+        .contact-info i { color: #f6b93b; margin-top: 4px; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 35px; height: 35px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: white; border-radius: 50%; text-decoration: none; transition: 0.3s; }
+        .social-links a:hover { background: #f6b93b; color: #0a3d62; }
+        .footer-bottom { background: #031b2c; padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-bottom p { font-size: 13px; color: #7f8c8d; margin: 0; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="logo1.jpeg" alt="Logo">
+        <span>Grievance Portal</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="submit_complaint.html" id="complaintBtn"><i class="fas fa-plus-circle"></i> Submit a Complaint</a></li>
+        <li><a href="track.html"><i class="fas fa-search-location"></i> Track</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li id="authContainer"><a href="login-register.html"><i class="fas fa-user"></i> Login</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-content" data-aos="zoom-in">
+        <h1>Secure Digital Grievance Redressal System</h1>
+        <p>Transparency. Accountability. Efficient Resolution.</p>
+        <p style="font-size: 16px; opacity: 0.9;">Report issues like potholes, water leaks, or electricity failures instantly with live location tracking and photo verification.</p>
+    </div>
+</section>
+
+<section class="issues">
+    <h2 data-aos="fade-up">Common Public Issues</h2>
+    <div class="issue-grid">
+        <div class="issue-card" data-aos="fade-up" data-aos-delay="100">
+            <img src="r1.jpeg" alt="Potholes">
+            <div class="card-content">
+                <h3><i class="fas fa-road icon-yellow"></i> Potholes</h3>
+                <p>Identify and report road hazards. Your reports help city engineers prioritize repairs for safer travel.</p>
+                <a href="https://en.wikipedia.org/wiki/Pothole" class="learn-more-btn" target="_blank">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="issue-card" data-aos="fade-up" data-aos-delay="200">
+            <img src="g1.jpeg" alt="Garbage">
+            <div class="card-content">
+                <h3><i class="fas fa-trash icon-yellow"></i> Garbage</h3>
+                <p>Keep your community clean. Report missed collections or illegal dumping sites to the sanitation team.</p>
+                <a href="https://en.wikipedia.org/wiki/Garbage" class="learn-more-btn" target="_blank">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="issue-card" data-aos="fade-up" data-aos-delay="300">
+            <img src="e1.jpeg" alt="Electricity">
+            <div class="card-content">
+                <h3><i class="fas fa-bolt icon-yellow"></i> Electricity</h3>
+                <p>Report streetlight failures or hazardous wiring to ensure public safety and reliable power.</p>
+                <a href="https://en.wikipedia.org/wiki/Electricity" class="learn-more-btn" target="_blank">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="issue-card" data-aos="fade-up" data-aos-delay="400">
+            <img src="w1.jpeg" alt="Water">
+            <div class="card-content">
+                <h3><i class="fas fa-tint icon-yellow"></i> Water Leakage</h3>
+                <p>Prevent water wastage. Report broken pipelines and sewage leaks for immediate administrative action.</p>
+                <a href="https://en.wikipedia.org/wiki/Water_supply_and_sanitation" class="learn-more-btn" target="_blank">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col" data-aos="fade-up">
+            <div class="logo">
+                <img src="logo1.jpeg" alt="Logo">
+                <span>Grievance Portal</span>
+            </div>
+            <p>Empowering citizens to build a better city through digital transparency and rapid response systems.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                <li><a href="submit_complaint.html"><i class="fas fa-chevron-right"></i> Submit Complaint</a></li>
+                <li><a href="#"><i class="fas fa-chevron-right"></i> Track Status</a></li>
+                <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+                <li><i class="fas fa-map-marker-alt"></i> 123 Govt Plaza, Municipal Center, NY</li>
+                <li><i class="fas fa-phone-alt"></i> +1 800 555 0199</li>
+                <li><i class="fas fa-envelope"></i> support@grievanceportal.gov</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Secure Digital Grievance System | Developed for Citizen Welfare</p>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    // --- LOGIC FOR ACCESS CONTROL & DYNAMIC NAVBAR ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const complaintBtn = document.getElementById('complaintBtn');
+        const authContainer = document.getElementById('authContainer');
+
+        // 1. GATEKEEPER LOGIC: Check before submitting complaint
+        if (complaintBtn) {
+            complaintBtn.addEventListener('click', function(e) {
+                if (localStorage.getItem("isLoggedIn") !== "true") {
+                    e.preventDefault(); 
+                    alert("Wait! You must Login first to file a grievance.");
+                    window.location.href = "login-register.html";
+                }
+            });
+        }
+
+        // 2. NAVBAR LOGIC: Change Login to Logout if user is signed in
+        if (localStorage.getItem("isLoggedIn") === "true") {
+            const userName = localStorage.getItem("userName") || "User";
+            // Update the link to show "Logout" and the user's name
+            authContainer.innerHTML = `
+                <a href="#" onclick="handleLogout(event)" style="color: #f6b93b;">
+                    <i class="fas fa-sign-out-alt"></i> Logout (${userName})
+                </a>
+            `;
+        }
+    });
+
+    // 3. LOGOUT FUNCTION
+    function handleLogout(e) {
+        e.preventDefault();
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userName");
+        alert("You have been logged out.");
+        window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>

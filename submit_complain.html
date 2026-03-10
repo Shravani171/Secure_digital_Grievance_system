@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Complaint - Grievance Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root { --primary: #0a3d62; --accent: #f6b93b; --light: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 20px; }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 { color: var(--primary); text-align: center; margin-bottom: 30px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* Camera Upload Style */
+        .camera-box {
+            border: 2px dashed var(--primary);
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f0f4f8;
+        }
+        .camera-box:hover { background: #e2e8f0; }
+        #imagePreview { width: 100%; margin-top: 15px; border-radius: 8px; display: none; }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .submit-btn:hover { background: #0d4d7d; transform: translateY(-2px); }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .status-pending { background: #ffeaa7; color: #d35400; }
+        .status-solved { background: #55efc4; color: #00b894; }
+
+        /* Simulated SMS Pop-up */
+        #smsNotification {
+            position: fixed;
+            top: 20px;
+            right: -400px;
+            width: 300px;
+            background: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.5s;
+            z-index: 9999;
+        }
+        .sms-header { font-size: 12px; color: var(--accent); margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div id="smsNotification">
+    <div class="sms-header"><i class="fas fa-comment"></i> MESSAGES (Now)</div>
+    <div id="smsBody">Your complaint has been submitted!</div>
+</div>
+
+<div class="form-container" data-aos="fade-up">
+    <h2><i class="fas fa-file-invoice"></i> File a Grievance</h2>
+    
+    <form id="grievanceForm">
+        <div class="form-group">
+            <label>Category of Issue</label>
+            <select id="category" required>
+                <option value="">Select Category</option>
+                <option value="Drainage">Drainage Problem</option>
+                <option value="Garbage">Garbage Collection</option>
+                <option value="Potholes">Potholes / Road Damage</option>
+                <option value="Electricity">Electricity / Streetlight</option>
+                <option value="Water">Water Leakage</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="description" rows="3" placeholder="Explain the issue..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Upload Evidence (Live Photo)</label>
+            <div class="camera-box" onclick="document.getElementById('cameraInput').click()">
+                <i class="fas fa-camera fa-2x" style="color: var(--primary)"></i>
+                <p>Click to take a photo or upload</p>
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden onchange="previewImage(event)">
+                <img id="imagePreview" alt="Preview">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Status: <span id="currentStatus" class="status-badge status-pending">SUBMITTED</span></label>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Complaint</button>
+    </form>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+
+    // Image Preview Logic
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            output.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Form Submission & Simulated SMS Logic
+    const form = document.getElementById('grievanceForm');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 1. Show "Submitted" SMS
+        showSMS("SUCCESS: Your complaint regarding " + document.getElementById('category').value + " has been successfully submitted. ID: #GR8829");
+
+        // 2. Simulate the "Recovery/Solved" process after 5 seconds
+        setTimeout(() => {
+            const statusLabel = document.getElementById('currentStatus');
+            statusLabel.textContent = "SOLVED";
+            statusLabel.className = "status-badge status-solved";
+            
+            showSMS("UPDATE: Your complaint ID #GR8829 has been RESOLVED. Thank you for your patience.");
+        }, 6000); // 6 seconds delay to show "Resolution"
+    });
+
+    function showSMS(message) {
+        const sms = document.getElementById('smsNotification');
+        const body = document.getElementById('smsBody');
+        
+        body.innerText = message;
+        sms.style.right = "20px"; // Slide in
+
+        setTimeout(() => {
+            sms.style.right = "-400px"; // Slide out after 4 seconds
+        }, 4500);
+    }
+</script>
+
+</body>
+</html>
