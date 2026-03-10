@@ -10,144 +10,59 @@
     <style>
         :root { --primary: #0a3d62; --accent: #f6b93b; --light: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 20px; }
-
-        .form-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        h2 { color: var(--primary); text-align: center; margin-bottom: 30px; }
-
+        .form-container { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h2 { color: var(--primary); text-align: center; }
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-
-        select, input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .camera-box {
-            border: 2px dashed var(--primary);
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #f0f4f8;
-            margin-bottom: 10px;
-        }
-        .camera-box:hover { background: #e2e8f0; }
-        #imagePreview { width: 100%; margin-top: 15px; border-radius: 8px; display: none; }
-
-        #map {
-            height: 250px;
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            display: none; 
-            margin-top: 10px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .submit-btn:hover { background: #0d4d7d; transform: translateY(-2px); }
-
-        /* Status Badges */
-        .status-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-        .status-pending { background: #ffeaa7; color: #d35400; } /* Yellow for In Process */
-        .status-submitted { background: #a29bfe; color: #2d3436; } /* Purple for Submitted */
-        .status-solved { background: #55efc4; color: #00b894; } /* Green for Solved */
-
-        #smsNotification {
-            position: fixed;
-            top: 20px;
-            right: -400px;
-            width: 300px;
-            background: #333;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: 0.5s;
-            z-index: 9999;
-        }
-        .sms-header { font-size: 12px; color: var(--accent); margin-bottom: 5px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; }
+        select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        .camera-box { border: 2px dashed var(--primary); padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; background: #f0f4f8; }
+        #imagePreview { width: 100%; margin-top: 15px; border-radius: 8px; display: none; border: 2px solid var(--accent); }
+        #map { height: 200px; width: 100%; border-radius: 8px; display: none; margin-top: 10px; }
+        .submit-btn { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background: #082d49; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        #smsNotification { position: fixed; top: 20px; right: -400px; width: 300px; background: #333; color: white; padding: 15px; border-radius: 10px; transition: 0.5s; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
 <div id="smsNotification">
-    <div class="sms-header"><i class="fas fa-comment"></i> MESSAGES (Now)</div>
-    <div id="smsBody">Your complaint has been submitted!</div>
+    <div style="font-size: 12px; color: var(--accent); font-weight: bold;"><i class="fas fa-comment"></i> SMS (Just Now)</div>
+    <div id="smsBody" style="margin-top: 5px;">Processing...</div>
 </div>
 
 <div class="form-container" data-aos="fade-up">
     <h2><i class="fas fa-file-invoice"></i> File a Grievance</h2>
-    
     <form id="grievanceForm">
         <div class="form-group">
-            <label>Category of Issue</label>
+            <label>Category</label>
             <select id="category" required>
                 <option value="">Select Category</option>
-                <option value="Drainage">Drainage Problem</option>
-                <option value="Garbage">Garbage Collection</option>
-                <option value="Potholes">Potholes / Road Damage</option>
-                <option value="Electricity">Electricity / Streetlight</option>
-                <option value="Water">Water Leakage</option>
+                <option value="Drainage">Drainage Management</option>
+                <option value="Garbage">Garbage Disposal</option>
+                <option value="Electricity">Electricity Issue</option>
+                <option value="Potholes">Potholes & Roads</option>
             </select>
         </div>
 
         <div class="form-group">
             <label>Description</label>
-            <textarea id="description" rows="3" placeholder="Explain the issue..." required></textarea>
+            <textarea id="description" rows="3" placeholder="Describe the issue in detail..." required></textarea>
         </div>
 
         <div class="form-group">
             <label>Evidence & Location</label>
             <div class="camera-box" onclick="document.getElementById('cameraInput').click()">
-                <i class="fas fa-camera fa-2x" style="color: var(--primary)"></i>
-                <p>Click to take photo of the problem</p>
-                <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden onchange="previewImage(event)">
-                <img id="imagePreview" alt="Preview">
+                <i class="fas fa-camera fa-2x" style="color: var(--primary);"></i>
+                <p>Click to Capture/Upload Photo</p>
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden onchange="processAndPreviewImage(event)">
+                <img id="imagePreview">
             </div>
-            
             <div id="map"></div>
-            <p id="locationText" style="font-size: 12px; color: #666; margin-top: 5px;">
-                <i class="fas fa-location-crosshairs"></i> Detecting live location...
-            </p>
+            <p id="locationText" style="font-size: 12px; color: #666; margin-top: 5px;"></p>
         </div>
 
-        <div class="form-group">
-            <label>Status: <span id="currentStatus" class="status-badge status-pending">IN PROCESS</span></label>
-        </div>
-
-        <button type="submit" class="submit-btn">Submit Complaint</button>
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Complaint</button>
     </form>
 </div>
 
@@ -155,68 +70,140 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-    
     AOS.init();
-
     let map;
+    let base64Image = "";
+    let userLat = 0, userLon = 0;
 
-    function initGPS() {
+    // 1. लोकेशन आणि मॅप लोड करणे
+    window.onload = function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                document.getElementById('locationText').innerHTML = `<i class="fas fa-check-circle" style="color:green"></i> Location Locked: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                userLat = position.coords.latitude;
+                userLon = position.coords.longitude;
+                document.getElementById('locationText').innerText = `Location Locked: ${userLat.toFixed(5)}, ${userLon.toFixed(5)}`;
                 document.getElementById('map').style.display = "block";
-                map = L.map('map').setView([lat, lon], 16);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
-                L.marker([lat, lon]).addTo(map).bindPopup('<b>Problem Location</b>').openPopup();
-            }, (error) => {
-                document.getElementById('locationText').innerHTML = `<i class="fas fa-exclamation-triangle" style="color:red"></i> Please enable GPS.`;
+                map = L.map('map').setView([userLat, userLon], 16);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                L.marker([userLat, userLon]).addTo(map);
+            }, () => {
+                document.getElementById('locationText').innerText = "Location access denied.";
             });
         }
-    }
+    };
 
-    window.onload = initGPS;
+    // 2. इमेज कॉम्प्रेस करणे (413 Payload Error टाळण्यासाठी)
+    function processAndPreviewImage(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-    function previewImage(event) {
         const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('imagePreview');
-            output.src = reader.result;
-            output.style.display = "block";
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                let width = img.width;
+                let height = img.height;
+                const max_size = 600; // Small size for fast upload
+
+                if (width > height) {
+                    if (width > max_size) { height *= max_size / width; width = max_size; }
+                } else {
+                    if (height > max_size) { width *= max_size / height; height = max_size; }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+                base64Image = canvas.toDataURL('image/jpeg', 0.6);
+                
+                const preview = document.getElementById('imagePreview');
+                preview.src = base64Image;
+                preview.style.display = "block";
+            };
         };
-        reader.readAsDataURL(event.target.files[0]);
     }
 
-    const form = document.getElementById('grievanceForm');
-    
-    form.addEventListener('submit', function(e) {
+    // 3. तक्रार सबमिट करणे (AUTO ID GENERATION)
+    document.getElementById('grievanceForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+        const userEmail = localStorage.getItem("userEmail");
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (!userEmail) { 
+            alert("Please Login first!"); 
+            window.location.href = "login-register.html";
+            return; 
+        }
+
+        submitBtn.innerText = "Submitting...";
+        submitBtn.disabled = true;
+
+        // --- ID GENERATION LOGIC ---
+        // LocalStorage मधून आधीच्या तक्रारींची यादी घ्या
+        let complaints = JSON.parse(localStorage.getItem("allComplaints")) || [];
         
-        // 1. CHANGE STATUS TO 'SUBMITTED' IMMEDIATELY ON CLICK
-        const statusLabel = document.getElementById('currentStatus');
-        statusLabel.textContent = "SUBMITTED";
-        statusLabel.className = "status-badge status-submitted";
+        // नवीन ID: जर लिस्ट रिकामी असेल तर 1, नाहीतर शेवटच्या ID + 1
+        let nextId = complaints.length > 0 ? (parseInt(complaints[complaints.length - 1].id) + 1) : 1;
 
-        // Show SMS
-        showSMS("SUCCESS: Your complaint regarding " + document.getElementById('category').value + " has been successfully submitted. ID: #GR8829");
+        const complaintData = {
+            id: nextId,
+            email: userEmail,
+            category: document.getElementById('category').value,
+            description: document.getElementById('description').value,
+            image: base64Image,
+            lat: userLat,
+            lon: userLon,
+            status: "Pending",
+            date: new Date().toLocaleString()
+        };
 
-        // 2. Simulating a 'Solved' status after 6 seconds
-       setTimeout(() => {
-            statusLabel.textContent = "SOLVED";
-            statusLabel.className = "status-badge status-solved";
-            showSMS("UPDATE: Your complaint ID #GR8829 has been RESOLVED.");
-        }, 6000); 
+        try {
+            // Backend ला पाठवणे
+            const res = await fetch('http://127.0.0.1:5000/submit-complaint', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(complaintData)
+            });
+
+            const result = await res.json();
+            // जर Backend कडून नवीन ID आला तर तो वापरा, नाहीतर आपला nextId वापरा
+            const finalId = result.id || nextId;
+
+            if (res.ok || res.status === 200) {
+                // LocalStorage मध्ये सेव्ह करा (Admin Dashboard साठी)
+                complaintData.id = finalId; // Finalize ID
+                complaints.push(complaintData);
+                localStorage.setItem("allComplaints", JSON.stringify(complaints));
+
+                showSMS(`SUCCESS! Your Complaint ID is: #${finalId}`);
+                alert("तक्रार यशस्वीरित्या नोंदवली! तुमचा ID: #" + finalId);
+                window.location.href = "index.html";
+            } else {
+                throw new Error(result.error || "Submission Failed");
+            }
+
+        } catch (err) {
+            console.warn("Backend Error, saving locally for now.");
+            // जरी Backend बंद असले तरी LocalStorage मध्ये डेटा राहील (Testing साठी उत्तम)
+            complaints.push(complaintData);
+            localStorage.setItem("allComplaints", JSON.stringify(complaints));
+            
+            showSMS(`SAVED! (Offline Mode) ID: #${nextId}`);
+            alert("सर्व्हर एरर! तक्रार तुमच्या ब्राउझरमध्ये सेव्ह झाली आहे. ID: #" + nextId);
+            window.location.href = "index.html";
+        }
     });
 
-    function showSMS(message) {
+    function showSMS(msg) {
         const sms = document.getElementById('smsNotification');
-        const body = document.getElementById('smsBody');
-        body.innerText = message;
-        sms.style.right = "20px"; 
-        setTimeout(() => { sms.style.right = "-400px"; }, 4500);
+        document.getElementById('smsBody').innerText = msg;
+        sms.style.right = "20px";
+        setTimeout(() => { sms.style.right = "-400px"; }, 5000);
     }
 </script>
-
 </body>
 </html>
