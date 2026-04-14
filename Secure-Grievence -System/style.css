@@ -1,0 +1,170 @@
+/* GENERAL */
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#ffffff;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:#0a3d62;
+color:white;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:22px;
+font-weight:bold;
+}
+
+.logo img{
+width:40px;
+height:40px;
+object-fit:cover;
+}
+
+.nav-links{
+list-style:none;
+display:flex;
+gap:25px;
+margin:0;
+padding:0;
+}
+
+.nav-links li a{
+text-decoration:none;
+color:white;
+font-size:16px;
+transition:0.3s;
+}
+
+.nav-links li a:hover{
+color:#f6b93b;
+}
+
+/* HERO SECTION */
+
+.hero{
+height:90vh;
+background-image:url("bg.jpeg");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+position:relative;
+}
+
+/* HERO TEXT BOX */
+
+.hero-content{
+background:rgba(0,0,0,0.55);
+padding:40px;
+border-radius:12px;
+max-width:900px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+line-height:1;
+}
+
+/* ISSUES SECTION */
+
+.issues{
+padding:70px 50px;
+background-image: url("bg.jpeg");
+text-align:center;
+
+}
+
+.issues h2{
+font-size:34px;
+margin-bottom:45px;
+color: white;
+}
+
+/* GRID */
+
+.issue-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:30px;
+}
+
+/* CARD */
+
+.issue-card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
+transition:transform 0.3s ease, box-shadow 0.3s ease;
+cursor:pointer;
+}
+
+/* IMAGE */
+
+.issue-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+transition:transform 0.4s ease;
+}
+
+
+
+/* TEXT */
+
+.issue-card p{
+padding:15px;
+font-size:18px;
+font-weight:bold;
+color:#333;
+}
+
+/* HOVER EFFECT */
+
+.issue-card:hover{
+transform:translateY(-10px);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.issue-card:hover img{
+transform:scale(1.1);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:32px;
+}
+
+.hero p{
+font-size:16px;
+}
+
+.nav-links{
+gap:15px;
+}
+
+}
+
+/*submit_complaint*/

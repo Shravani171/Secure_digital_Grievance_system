@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Digital Grievance System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; overflow-x: hidden; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #0a3d62; color: white; position: sticky; top: 0; z-index: 1000; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: bold; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; cursor: pointer; }
+        .nav-links a:hover { color: #f6b93b; }
+        
+        /* Language Dropdown Style */
+        .lang-select {
+            background: #f6b93b;
+            color: #0a3d62;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .hero { height: 85vh; background: linear-gradient(rgba(10, 61, 98, 0.7), rgba(10, 61, 98, 0.7)), url("bg.jpeg") center/cover; display: flex; justify-content: center; align-items: center; text-align: center; color: white; }
+        .hero-content { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 50px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); max-width: 800px; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; line-height: 1.2; }
+
+        .issues { padding: 60px 40px; text-align: center; }
+        .issues h2 { font-size: 32px; color: #0a3d62; margin-bottom: 40px; }
+        .issue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .issue-card { background: white; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; overflow: hidden; display: flex; flex-direction: column; text-align: left; }
+        .issue-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .issue-card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .card-content h3 { margin: 0 0 10px 0; font-size: 20px; color: #0a3d62; display: flex; align-items: center; gap: 10px; }
+        .card-content p { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; height: 60px; }
+        .learn-more-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #0a3d62; color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        .learn-more-btn:hover { background: #f6b93b; color: #0a3d62; }
+        .icon-yellow { color: #f6b93b; }
+        footer { background: #052a44; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-shield-alt"></i> <span data-i18n="logo_text">Grievance Portal</span></div>
+        <div class="nav-links">
+            <select class="lang-select" id="langSwitcher">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="mr">मराठी</option>
+            </select>
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="submit_complaint.html" data-i18n="nav_submit">Submit Complaint</a>
+            <a href="track.html" data-i18n="nav_track">Tracking</a>
+            <a href="#" onclick="checkAdminAccess()" data-i18n="nav_admin">Admin Dashboard</a>
+            <span id="authContainer">
+                <a href="login-register.html"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Login</span></a>
+            </span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content" data-aos="zoom-in">
+            <h1 data-i18n="hero_h1">Secure Digital Grievance Redressal System</h1>
+            <p data-i18n="hero_p1">Transparency. Accountability. Efficient Resolution.</p>
+            <p style="font-size: 16px; opacity: 0.9;" data-i18n="hero_p2">Report issues like potholes, water leaks, or electricity failures instantly with live location tracking and photo verification.</p>
+        </div>
+    </header>
+
+    <section class="issues">
+        <h2 data-aos="fade-up" data-i18n="issues_title">Common Public Issues</h2>
+        <div class="issue-grid">
+            <div class="issue-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="r1.jpeg" alt="Potholes">
+                <div class="card-content">
+                    <h3><i class="fas fa-road icon-yellow"></i> <span data-i18n="card1_h">Potholes</span></h3>
+                    <p data-i18n="card1_p">Identify and report road hazards. Your reports help city engineers prioritize repairs for safer travel.</p>
+                    <a href="https://en.wikipedia.org/wiki/Pothole" class="learn-more-btn" target="_blank"><span data-i18n="learn_more">Learn More</span> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="issue-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="g1.jpeg" alt="Garbage">
+                <div class="card-content">
+                    <h3><i class="fas fa-trash icon-yellow"></i> <span data-i18n="card2_h">Garbage</span></h3>
+                    <p data-i18n="card2_p">Keep your community clean. Report missed collections or illegal dumping sites to the sanitation team.</p>
+                    <a href="https://en.wikipedia.org/wiki/Garbage" class="learn-more-btn" target="_blank"><span data-i18n="learn_more">Learn More</span> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="issue-card" data-aos="fade-up" data-aos-delay="300">
+                <img src="e1.jpeg" alt="Electricity">
+                <div class="card-content">
+                    <h3><i class="fas fa-bolt icon-yellow"></i> <span data-i18n="card3_h">Electricity</span></h3>
+                    <p data-i18n="card3_p">Report streetlight failures or hazardous wiring to ensure public safety and reliable power.</p>
+                    <a href="https://en.wikipedia.org/wiki/Electricity" class="learn-more-btn" target="_blank"><span data-i18n="learn_more">Learn More</span> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="issue-card" data-aos="fade-up" data-aos-delay="400">
+                <img src="w1.jpeg" alt="Water">
+                <div class="card-content">
+                    <h3><i class="fas fa-tint icon-yellow"></i> <span data-i18n="card4_h">Water Leakage</span></h3>
+                    <p data-i18n="card4_p">Prevent water wastage. Report broken pipelines and sewage leaks for immediate administrative action.</p>
+                    <a href="https://en.wikipedia.org/wiki/Water_supply_and_sanitation" class="learn-more-btn" target="_blank"><span data-i18n="learn_more">Learn More</span> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 <span data-i18n="footer_text">Secure Digital Grievance System | Citizen Welfare Portal</span></p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // 1. Translation Dictionary
+        const translations = {
+            en: {
+                logo_text: "Grievance Portal",
+                nav_home: "Home",
+                nav_submit: "Submit Complaint",
+                nav_admin: "Admin Dashboard",
+                nav_login: "Login",
+                hero_h1: "Secure Digital Grievance Redressal System",
+                hero_p1: "Transparency. Accountability. Efficient Resolution.",
+                hero_p2: "Report issues like potholes, water leaks, or electricity failures instantly with live location tracking and photo verification.",
+                issues_title: "Common Public Issues",
+                card1_h: "Potholes",
+                card1_p: "Identify and report road hazards. Your reports help city engineers prioritize repairs for safer travel.",
+                card2_h: "Garbage",
+                card2_p: "Keep your community clean. Report missed collections or illegal dumping sites to the sanitation team.",
+                card3_h: "Electricity",
+                card3_p: "Report streetlight failures or hazardous wiring to ensure public safety and reliable power.",
+                card4_h: "Water Leakage",
+                card4_p: "Prevent water wastage. Report broken pipelines and sewage leaks for immediate administrative action.",
+                learn_more: "Learn More",
+                footer_text: "Secure Digital Grievance System | Citizen Welfare Portal",
+                alert_login: "Please Login First!",
+                alert_admin: "Unauthorized! Only Admin has access."
+            },
+            hi: {
+                logo_text: "शिकायत पोर्टल",
+                nav_home: "होम",
+                nav_submit: "शिकायत दर्ज करें",
+                nav_admin: "एडमिन डैशबोर्ड",
+                nav_login: "लॉगिन",
+                hero_h1: "सुरक्षित डिजिटल शिकायत निवारण प्रणाली",
+                hero_p1: "पारदर्शिता। जवाबदेही। कुशल समाधान।",
+                hero_p2: "लाइव लोकेशन ट्रैकिंग और फोटो सत्यापन के साथ सड़क के गड्ढे, पानी के रिसाव या बिजली की विफलता जैसी समस्याओं की तुरंत रिपोर्ट करें।",
+                issues_title: "आम जन समस्याएं",
+                card1_h: "सड़क के गड्ढे",
+                card1_p: "सड़क के खतरों की पहचान करें और रिपोर्ट करें। आपकी रिपोर्ट इंजीनियरों को मरम्मत को प्राथमिकता देने में मदद करती है।",
+                card2_h: "कचरा",
+                card2_p: "अपने समुदाय को साफ रखें। कचरा संग्रहण न होने या अवैध डंपिंग साइटों की रिपोर्ट स्वच्छता टीम को करें।",
+                card3_h: "बिजली",
+                card3_p: "सार्वजनिक सुरक्षा और विश्वसनीय बिजली सुनिश्चित करने के लिए स्ट्रीटलाइट खराब होने या खतरनाक वायरिंग की रिपोर्ट करें।",
+                card4_h: "पानी का रिसाव",
+                card4_p: "पानी की बर्बादी रोकें। तत्काल प्रशासनिक कार्रवाई के लिए टूटी पाइप लाइनों और सीवेज रिसाव की रिपोर्ट करें।",
+                learn_more: "और जानें",
+                footer_text: "सुरक्षित डिजिटल शिकायत प्रणाली | नागरिक कल्याण पोर्टल",
+                alert_login: "कृपया पहले लॉगिन करें!",
+                alert_admin: "अनधिकृत! केवल एडमिन को ही एक्सेस है।"
+            },
+            mr: {
+                logo_text: "तक्रार निवारण पोर्टल",
+                nav_home: "मुख्यपृष्ठ",
+                nav_submit: "तक्रार नोंदवा",
+                nav_admin: "अ‍ॅडमिन डॅशबोर्ड",
+                nav_login: "लॉगिन",
+                hero_h1: "सुरक्षित डिजिटल तक्रार निवारण प्रणाली",
+                hero_p1: "पारदर्शकता. उत्तरदायित्व. कार्यक्षम निवारण.",
+                hero_p2: "लाइव लोकेशन ट्रॅकिंग आणि फोटो व्हेरिफिकेशनसह खड्डे, पाणी गळती किंवा वीज समस्यांची त्वरित तक्रार करा.",
+                issues_title: "सामान्य सार्वजनिक समस्या",
+                card1_h: "रस्त्यावरील खड्डे",
+                card1_p: "रस्त्यावरील धोके ओळखा आणि तक्रार करा. आपल्या तक्रारीमुळे दुरुस्तीला प्राधान्य देण्यास मदत होईल.",
+                card2_h: "कचरा व्यवस्थापन",
+                card2_p: "आपला परिसर स्वच्छ ठेवा. कचरा उचलला नसल्यास किंवा कचऱ्याच्या ढिगाऱ्याबाबत स्वच्छता टीमकडे तक्रार करा.",
+                card3_h: "वीज समस्या",
+                card3_p: "स्ट्रीटलाइट बंद असल्यास किंवा धोकादायक वायरिंग असल्यास तक्रार करा जेणेकरून सार्वजनिक सुरक्षितता टिकून राहील.",
+                card4_h: "पाणी गळती",
+                card4_p: "पाण्याचा अपव्यय टाळा. फुटलेल्या पाईपलाईन्स आणि सांडपाणी गळतीबाबत त्वरित प्रशासकीय कारवाईसाठी तक्रार करा.",
+                learn_more: "अधिक माहिती",
+                footer_text: "सुरक्षित डिजिटल तक्रार निवारण प्रणाली | नागरिक कल्याण पोर्टल",
+                alert_login: "कृपया आधी लॉगिन करा!",
+                alert_admin: "अनधिकृत! फक्त अ‍ॅडमिनला प्रवेश आहे."
+            }
+        };
+
+        // 2. Language Switcher Logic
+        const langSwitcher = document.getElementById('langSwitcher');
+
+        langSwitcher.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            localStorage.setItem("preferredLang", selectedLang);
+            applyLanguage(selectedLang);
+        });
+
+        function applyLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved language
+            const savedLang = localStorage.getItem("preferredLang") || "en";
+            langSwitcher.value = savedLang;
+            applyLanguage(savedLang);
+
+            const authContainer = document.getElementById('authContainer');
+            const userEmail = localStorage.getItem("userEmail");
+            const userName = localStorage.getItem("userName");
+
+            if (userEmail) {
+                const logoutText = (savedLang === 'mr') ? 'लॉगआउट' : (savedLang === 'hi' ? 'लॉगआउट' : 'Logout');
+                authContainer.innerHTML = `
+                    <a href="#" onclick="handleLogout(event)" style="color: #f6b93b;">
+                        <i class="fas fa-user-circle"></i> ${logoutText} (${userName || userEmail.split('@')[0]})
+                    </a>`;
+            }
+        });
+
+        function checkAdminAccess() {
+            const userEmail = localStorage.getItem("userEmail");
+            const currentLang = localStorage.getItem("preferredLang") || "en";
+            
+            if (userEmail === "admin@gmail.com") {
+                window.location.href = "admin.html";
+            } else if (!userEmail) {
+                alert(translations[currentLang].alert_login);
+                window.location.href = "login-register.html";
+            } else {
+                alert(translations[currentLang].alert_admin);
+            }
+        }
+
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.clear();
+            const currentLang = localStorage.getItem("preferredLang") || "en";
+            const msg = (currentLang === 'mr') ? 'यशस्वीरित्या लॉगआउट झाले!' : 'Logged out successfully!';
+            alert(msg);
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
